@@ -4,6 +4,7 @@ import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import PrivetRoute from "../context/PrivetRoute";
+import UpcomingEvents from "../pages/UpcomingEvents/UpcomingEvents";
 
 
 export const router = createBrowserRouter([
@@ -13,11 +14,11 @@ export const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                Component: Home
+                Component: Home,
             },
             {
                 path: '/upcoming-events',
-                element: <h2 className='text-5xl font-bold py-10 text-center'>Upcoming Events</h2>
+                Component: UpcomingEvents,
             },
             {
                 path: '/create-event',

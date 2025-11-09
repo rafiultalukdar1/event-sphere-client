@@ -2,6 +2,7 @@ import React from 'react';
 import Banner from './Banner';
 import Impact from './Impact';
 import Gallery from './Gallery';
+import Newsletter from './Newsletter';
 
 const Home = () => {
     return (
@@ -9,6 +10,7 @@ const Home = () => {
             <Banner></Banner>
             <Impact></Impact>
             <Gallery></Gallery>
+            <Newsletter></Newsletter>
         </>
     );
 };
