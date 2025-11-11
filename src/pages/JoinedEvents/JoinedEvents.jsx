@@ -66,7 +66,7 @@ const JoinedEvents = () => {
     <>
         <div className='py-[50px] md:py-[70px]'>
             <div className='container'>
-                <h2 className='text-center text-[32px] sm:text-[40px] lg:text-[50px] font-bold'>My Joined <span className='bg-linear-to-b from-[#219E64] to-[#5FD68E] bg-clip-text text-transparent'>Events</span></h2>
+                <h2 className='text-center text-[32px] sm:text-[40px] lg:text-[50px] font-bold'>Joined <span className='bg-linear-to-b from-[#219E64] to-[#5FD68E] bg-clip-text text-transparent'>Events</span></h2>
                 {joinedEvents.length === 0 ? (
                     <p className='text-gray-600 dark:text-indigo-100 text-center py-10'>You haven't joined any events yet.</p>
                 ) : (

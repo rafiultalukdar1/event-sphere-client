@@ -8,6 +8,7 @@ import UpcomingEvents from "../pages/UpcomingEvents/UpcomingEvents";
 import EventDetails from "../pages/EventDetails/EventDetails";
 import JoinedEvents from "../pages/JoinedEvents/JoinedEvents";
 import CreateEvent from "../pages/CreateEvent/CreateEvent";
+import ManageEvents from "../pages/ManageEvents/ManageEvents";
 
 
 export const router = createBrowserRouter([
@@ -29,7 +30,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: '/manage-events',
-                element: <PrivetRoute><h2 className='text-5xl font-bold py-10 text-center'>Manage Events</h2></PrivetRoute>
+                element: <PrivetRoute><ManageEvents></ManageEvents></PrivetRoute>
             },
             {
                 path: '/joined-events',

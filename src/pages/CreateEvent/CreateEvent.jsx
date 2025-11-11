@@ -34,9 +34,23 @@ const CreateEvent = () => {
         const organizer_email = user?.email || 'No Email';
         const status = 'upcoming';
         const created_at = new Date().toISOString();
-        if (!event_date) {
-            return Swal.fire('Error', 'Please select a valid future date!', 'error');
+
+        if (!title || !description || !event_details || !thumbnail || !event_type || !location || !eventDate) {
+            return Swal.fire({
+                icon: 'error',
+                title: 'All fields are required!',
+                text: 'Please fill out every field and select a valid future date.',
+            });
         }
+
+        if (eventDate <= new Date()) {
+            return Swal.fire({
+                icon: 'error',
+                title: 'Invalid Date!',
+                text: 'Please select a valid future date for the event.',
+            });
+        }
+
         const newEvent = { thumbnail, event_type, title, description, event_details, event_date, location, organizer_photo, organizer_name, organizer_email, status, created_at };
 
         axios.post('http://localhost:3000/events', newEvent)
@@ -70,17 +84,17 @@ const CreateEvent = () => {
 
                     <div className='max-w-[750px] mx-auto py-7 px-5 border border-[#CCCCCC] dark:bg-gray-900 rounded-2xl mt-5 lg:mt-8'>
                         <form onSubmit={handleCreateEvent} className='space-y-3'>
-                            <input type='text' name='title' placeholder='Event Title' required className='form-input' />
-                            <textarea name='description' placeholder='Short Description' required className='form-input h-24'></textarea>
-                            <textarea name='event_details' placeholder='Event Details' required className='form-input h-28'></textarea>
-                            <input type='text' name='thumbnail' placeholder='Thumbnail Image URL' required className='form-input' />
-                            <select name='event_type' required className='form-input'>
+                            <input type='text' name='title' placeholder='Event Title'  className='form-input' />
+                            <textarea name='description' placeholder='Short Description'  className='form-input h-24'></textarea>
+                            <textarea name='event_details' placeholder='Event Details'  className='form-input h-28'></textarea>
+                            <input type='text' name='thumbnail' placeholder='Thumbnail Image URL'  className='form-input' />
+                            <select name='event_type'  className='form-input'>
                                 <option value=''>Select Event Type</option>
                                 {eventTypes.map((type, i) => (
                                     <option key={i} value={type}>{type}</option>
                                 ))}
                             </select>
-                            <input type='text' name='location' placeholder='Event Location' required className='form-input' />
+                            <input type='text' name='location' placeholder='Event Location'  className='form-input' />
                             <div className='flex flex-col'>
                                 <DatePicker selected={eventDate} onChange={(date) => setEventDate(date)} minDate={new Date()} showTimeSelect  dateFormat='Pp' placeholderText='Choose Event Date' className='form-input' />
                             </div>

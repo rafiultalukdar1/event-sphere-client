@@ -82,11 +82,6 @@ const EventDetails = () => {
             });
     };
 
-
-
-
-
-
     useEffect(() => {
         if (!user) return;
         const fetchJoinedEvents = async () => {
