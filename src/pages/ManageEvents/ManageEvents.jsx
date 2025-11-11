@@ -6,6 +6,7 @@ import { FaLocationDot, FaRegCalendar } from 'react-icons/fa6';
 import { RiDeleteBinLine } from 'react-icons/ri';
 import { FaRegEdit } from 'react-icons/fa';
 import { Link } from 'react-router';
+import Swal from 'sweetalert2';
 
 const ManageEvents = () => {
 
@@ -30,7 +31,51 @@ const ManageEvents = () => {
             .catch(err => console.error(err));
     }, [user, axios]);
 
+    const handleDeleteEvent = (eventId) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`http://localhost:3000/events/${eventId}`, {
+                    method: "DELETE",
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.deletedCount > 0) {
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "Your event has been deleted.",
+                            icon: "success"
+                        });
 
+                        // Update frontend state
+                        const remainingEvents = events.filter(event => event._id !== eventId);
+                        setEvents(remainingEvents);
+                    } else {
+                        Swal.fire({
+                            title: "Failed!",
+                            text: "Event could not be deleted.",
+                            icon: "error"
+                        });
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    Swal.fire({
+                        title: "Error!",
+                        text: "Something went wrong. Try again.",
+                        icon: "error"
+                    });
+                });
+            }
+        });
+    };
 
     return (
         <>
@@ -57,14 +102,16 @@ const ManageEvents = () => {
                                             <div className='flex items-center gap-2.5'>
                                                 {
                                                     new Date(event.event_date) < new Date() ? (
-                                                        <button className='px-4 py-2 rounded-lg bg-red-600 text-white font-medium cursor-not-allowed w-full'>Expired</button>
+                                                        <button className='px-4 py-2 rounded-lg bg-[#F43198] text-white font-medium cursor-not-allowed w-full'>Expired</button>
                                                     ) : (
-                                                        <>
-                                                            <Link to={`/manage-events-update/${event._id}`} className='flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-300 text-[#141414] font-medium bg-gray-100  transition'><FaRegEdit size={16} /><span>Update</span></Link>
-                                                            <button className='flex items-center gap-2 px-4 py-2 rounded-lg bg-[#F43198] text-white font-medium transition'><RiDeleteBinLine size={16} /><span>Delete</span></button>
-                                                        </>
+                                                        <Link to={`/manage-events-update/${event._id}`} className='flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-300 text-[#141414] font-medium bg-gray-100 transition'>
+                                                            <FaRegEdit size={16} /><span>Update</span>
+                                                        </Link>
                                                     )
                                                 }
+                                                <button onClick={() => handleDeleteEvent(event._id)} className='flex items-center gap-2 px-4 py-2 rounded-lg bg-red-600 text-white font-medium transition'>
+                                                    <RiDeleteBinLine size={16} /><span>Delete</span>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
