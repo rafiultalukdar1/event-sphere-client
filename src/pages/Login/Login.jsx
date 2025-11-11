@@ -10,6 +10,7 @@ const Login = () => {
     const {signWithGoogle, signInUser} = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
+    const from = location.state?.from || '/';
 
     // Form Login
     const handleLogin = (e) => {
@@ -20,7 +21,7 @@ const Login = () => {
             .then(() => {
                 e.target.reset();
                 toast.success("Login successful!");
-                navigate(`${location.state ? location.state : '/'}`);
+                navigate(from, { replace: true });
             })
             .catch(error => {
                 toast.error(error.code  ? error.code.replace('auth/', '').replaceAll('-', ' ')  : error.message );
@@ -33,7 +34,7 @@ const Login = () => {
         signWithGoogle()
             .then(() => {
                 toast.success("Login successful!");
-                navigate(`${location.state ? location.state : '/'}`);
+                navigate(from, { replace: true });
             })
             .catch(error => {
                 toast.error(error.code  ? error.code.replace('auth/', '').replaceAll('-', ' ')  : error.message );

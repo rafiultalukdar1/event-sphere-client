@@ -12,14 +12,22 @@ const JoinedEvents = () => {
   const axiosSecure = useAxiosSecure();
   const [joinedEvents, setJoinedEvents] = useState([]);
 
-  useEffect(() => {
-    if (user?.email) {
-      axiosSecure
-        .get(`/joined-events?email=${user.email}`)
-        .then(res => setJoinedEvents(res.data))
-        .catch(err => console.error(err));
-    }
-  }, [user, axiosSecure]);
+    useEffect(() => {
+        if (user?.email) {
+            axiosSecure
+            .get(`/joined-events?email=${user.email}`)
+            .then(res => {
+                const now = new Date();
+                const futureEvents = res.data.filter(e => new Date(e.event_date) >= now);
+                const pastEvents = res.data.filter(e => new Date(e.event_date) < now);
+                futureEvents.sort((a, b) => new Date(a.event_date) - new Date(b.event_date));
+                pastEvents.sort((a, b) => new Date(a.event_date) - new Date(b.event_date));
+                setJoinedEvents([...futureEvents, ...pastEvents]);
+            })
+            .catch(err => console.error(err));
+        }
+    }, [user, axiosSecure]);
+
 
   // Delete Join Event
   const handleDeleteJoinEvent = (_id) => {
@@ -69,12 +77,19 @@ const JoinedEvents = () => {
                                 <p className='inline-flex items-center gap-1 py-0.5 px-2 bg-[#E7F8F2] text-[12px] text-[#10B77F] font-medium rounded-full'><CiShoppingTag /><span>{event.event_type}</span></p>
                                 <h2 className='pt-2 text-[20px] font-semibold'>{event.title}</h2>
                                 <p className='text-[#6D7873] text-[15px] py-1 overflow-hidden [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2]'>{event.description}</p>
-                                <h6 className='mt-2 flex items-center gap-1.5 text-[15px] font-medium'><FaRegCalendar className='text-[16px] text-[#10B77F]'/><span>{event.event_date}</span></h6>
+                                <h6 className='mt-2 flex items-center gap-1.5 text-[15px] font-medium'><FaRegCalendar className='text-[16px] text-[#10B77F]'/><span>{new Date(event.event_date).toISOString().split('T')[0]}</span></h6>
                                 <h6 className='mt-2 flex items-center gap-1.5 text-[15px] font-medium'><FaLocationDot className='text-[16px] text-[#10B77F]'/><span>{event.location}</span></h6>
                                 {/* <Link to={`/event-details/${event._id}`} className='py-1.5 w-full bg-[#219E64] rounded mt-5 text-white text-[17px] font-medium block text-center'>View Event</Link> */}
-                                <div className="flex gap-3 mt-5">
+                                <div className="grid grid-cols-2 gap-2.5 mt-4">
                                     <Link to={`/event-details/${event.eventId}`} className="flex-1 py-1.5 bg-[#219E64] rounded text-white text-[17px] font-medium text-center">View Event</Link>
-                                    <button onClick={() => handleDeleteJoinEvent(event.joinedId)} className="flex-1 py-1.5 bg-red-500 rounded text-white text-[17px] font-medium" >Close</button>
+                                    <div>
+                                        {new Date(event.event_date) < new Date() ? (
+                                            <button className="flex-1 py-1.5 bg-red-500 rounded text-white text-[17px] font-medium cursor-not-allowed w-full"> Past Event</button>
+                                        ) : (
+                                            <button onClick={() => handleDeleteJoinEvent(event.joinedId)} className="flex-1 py-1.5 bg-[#F43098] rounded w-full text-white text-[17px] font-medium">Close</button>
+                                        )}
+                                    </div>
+                                    {/* <button onClick={() => handleDeleteJoinEvent(event.joinedId)} className="flex-1 py-1.5 bg-[#F43098] rounded text-white text-[17px] font-medium" >Close</button> */}
                                 </div>
                             </div>
                         </div>))}

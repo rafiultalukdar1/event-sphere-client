@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios from "axios";
 import useAuth from "./useAuth";
 
 const instance = axios.create({
@@ -6,11 +6,12 @@ const instance = axios.create({
 });
 
 const useAxiosSecure = () => {
-
-    const {user} = useAuth();
+    const { user } = useAuth();
 
     instance.interceptors.request.use(config => {
-        config.headers.authorization = `Bearer ${user.accessToken}`;
+        if (user?.accessToken) {
+            config.headers.authorization = `Bearer ${user.accessToken}`;
+        }
         return config;
     });
 

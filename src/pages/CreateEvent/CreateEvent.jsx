@@ -3,13 +3,11 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router';
 import useAuth from '../../context/useAuth';
 
 const CreateEvent = () => {
 
     const { user } = useAuth();
-    const navigate = useNavigate();
     const [eventDate, setEventDate] = useState(null);
     const [eventTypes, setEventTypes] = useState([]);
 
@@ -47,10 +45,12 @@ const CreateEvent = () => {
             Swal.fire({
                 icon: 'success',
                 title: 'Event created successfully!',
-                timer: 2000,
-                showConfirmButton: false
+                timer: 1200,
+                showConfirmButton: false,
+                willClose: () => {
+                    window.location.href = '/upcoming-events';
+                }
             });
-            navigate('/upcoming-events');
             } else {
             Swal.fire('Error', 'Failed to create event!', 'error');
             }

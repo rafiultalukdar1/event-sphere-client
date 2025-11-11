@@ -1,10 +1,11 @@
 import { CiShoppingTag } from 'react-icons/ci';
 import { FaArrowLeft, FaMapMarkerAlt, FaRegCalendar } from 'react-icons/fa';
-import { Link, useParams } from 'react-router';
+import { Link, useNavigate, useParams } from 'react-router';
 import useAuth from '../../context/useAuth';
 import useAxiosSecure from '../../context/useAxiosSecure';
 import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const EventDetails = () => {
     const { id } = useParams();
@@ -12,33 +13,79 @@ const EventDetails = () => {
     const { user } = useAuth();
     const [event, setEvent] = useState({});
     const [joinedEvents, setJoinedEvents] = useState([]);
+    const navigate = useNavigate();
 
+    // useEffect(() => {
+    //     const fetchEvent = async () => {
+    //         const res = await axiosSecure.get(`/events/${id}`);
+    //         setEvent(res.data);
+    //     };
+    //     fetchEvent();
+    // }, [id, axiosSecure]);
     useEffect(() => {
         const fetchEvent = async () => {
-            const res = await axiosSecure.get(`/events/${id}`);
+            const res = await axios.get(`http://localhost:3000/events/${id}`);
             setEvent(res.data);
         };
         fetchEvent();
-    }, [id, axiosSecure]);
+    }, [id]);
 
-    const handleJoinEvent = async () => {
-        if (!user) return toast.error('Please login to join this event');
+    // const handleJoinEvent = async () => {
+    //     if (!user) {
+    //         toast.error('Please login to join this event');
+    //         return navigate('/login', { state: { from: `/event-details/${id}` } });
+    //     }
+    //     const res = await axiosSecure.post('/join-event', { eventId: id, userEmail: user.email })
+    //         .catch(err => {
+    //             if (err.response?.status === 400) {
+    //                 toast.warning('You have already joined this event');
+    //             } else {
+    //                 toast.error('Something went wrong');
+    //             }
+    //             return null;
+    //         });
+    //     if (!res) return;
+    //     const joinedRes = await axiosSecure.get(`/joined-events/${user.email}`)
+    //         .catch(err => console.error(err));
+    //     if (joinedRes?.data) setJoinedEvents(joinedRes.data);
+    //     toast.success('Successfully joined the event!');
+    // };
 
-        const res = await axiosSecure.post('/join-event', { eventId: id, userEmail: user.email })
-            .catch(err => {
-                if (err.response?.status === 400) {
-                    toast.warning('You have already joined this event');
-                } else {
-                    toast.error('Something went wrong');
+    const handleJoinEvent = () => {
+        if (!user) {
+            toast.error('Please login to join this event');
+            return navigate('/login', { state: { from: `/event-details/${id}` } });
+        }
+
+        axiosSecure.post('/join-event', { eventId: id, userEmail: user.email })
+            .then(res => {
+                console.log('Join Event Response:', res.data);
+                if (res.data?.message) {
+                    toast.success(res.data.message);
                 }
-                return null;
+
+                return axiosSecure.get(`/joined-events?email=${user.email}`);
+            })
+            .then(joinedRes => {
+                console.log('Joined Events:', joinedRes.data);
+                if (joinedRes?.data) setJoinedEvents(joinedRes.data);
+            })
+            .catch(err => {
+                console.error('Join Event Error:', err.response || err);
+                if (err.response?.status === 400) {
+                    toast.warning(err.response.data?.message || 'You have already joined this event');
+                } else if (err.response?.status === 401) {
+                    toast.error('Unauthorized. Please login again');
+                } else {
+                    toast.error('Something went wrong. Please try again later');
+                }
             });
-        if (!res) return;
-        const joinedRes = await axiosSecure.get(`/joined-events/${user.email}`)
-            .catch(err => console.error(err));
-        if (joinedRes?.data) setJoinedEvents(joinedRes.data);
-        toast.success('Successfully joined the event!');
     };
+
+
+
+
+
 
     useEffect(() => {
         if (!user) return;
