@@ -9,13 +9,15 @@ const CreateEvent = () => {
 
     const { user } = useAuth();
     const [eventDate, setEventDate] = useState(null);
-    const [eventTypes, setEventTypes] = useState([]);
+    const predefinedTypes = ["Cleanup", "Plantation", "Donation", "Education", "Healthcare"];
+    const [eventTypes, setEventTypes] = useState(predefinedTypes);
 
     useEffect(() => {
         axios.get('http://localhost:3000/events')
         .then(res => {
             const uniqueTypes = [...new Set(res.data.map(event => event.event_type))];
-            setEventTypes(uniqueTypes);
+            const combined = Array.from(new Set([...predefinedTypes, ...uniqueTypes]));
+            setEventTypes(combined);
         })
         .catch(err => console.error(err));
     }, []);

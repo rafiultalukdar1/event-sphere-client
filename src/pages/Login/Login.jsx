@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { Link, useLocation, useNavigate } from 'react-router';
-import { toast } from 'react-toastify';
 import useAuth from '../../context/useAuth';
+import Swal from 'sweetalert2';
 
 const Login = () => {
 
@@ -17,27 +17,54 @@ const Login = () => {
         e.preventDefault();
         const email = e.target.email.value;
         const password = e.target.password.value;
+
+        if (!email || !password) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Please fill in all fields!',
+            });
+            return;
+        }
         signInUser(email, password)
             .then(() => {
                 e.target.reset();
-                toast.success("Login successful!");
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Login successful!',
+                    timer: 1500,
+                    showConfirmButton: false
+                });
                 navigate(from, { replace: true });
             })
             .catch(error => {
-                toast.error(error.code  ? error.code.replace('auth/', '').replaceAll('-', ' ')  : error.message );
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: error.code ? error.code.replace('auth/', '').replaceAll('-', ' ') : error.message,
+                });
             });
-    }
+    };
 
 
     // Google SignIn
     const handleGoogleSignIn = () => {
         signWithGoogle()
             .then(() => {
-                toast.success("Login successful!");
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Google SignIn Successful!',
+                    timer: 1500,
+                    showConfirmButton: false
+                });
                 navigate(from, { replace: true });
             })
             .catch(error => {
-                toast.error(error.code  ? error.code.replace('auth/', '').replaceAll('-', ' ')  : error.message );
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: error.code ? error.code.replace('auth/', '').replaceAll('-', ' ') : error.message,
+                });
             });
     };
 

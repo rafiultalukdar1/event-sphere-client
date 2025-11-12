@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router';
-import { toast } from 'react-toastify';
 import useAuth from '../../context/useAuth';
+import Swal from 'sweetalert2';
 
 const Register = () => {
 
@@ -10,43 +10,103 @@ const Register = () => {
     const {signWithGoogle, createUser, updateUser} = useAuth();
     const navigate = useNavigate();
 
+    // Register Handle
     const handleRegister = (e) => {
         e.preventDefault();
         const email = e.target.email.value;
         const password = e.target.password.value;
         const name = e.target.name.value;
         const photo = e.target.photo.value;
-
+        if (!email || !password || !name || !photo) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'All fields are required!',
+            });
+            return;
+        }
+        const uppercasePattern = /[A-Z]/;
+        const lowercasePattern = /[a-z]/;
+        if (password.length < 6) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Length must be at least 6 characters',
+            });
+            return;
+        }
+        if (!uppercasePattern.test(password)) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Must have an Uppercase letter in the password',
+            });
+            return;
+        }
+        if (!lowercasePattern.test(password)) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Must have a Lowercase letter in the password',
+            });
+            return;
+        }
         createUser(email, password)
             .then(result => {
                 e.target.reset();
-                toast.success('Account created successfully!');
-                updateUser(result.user,{ displayName: name, photoURL: photo })
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Account created successfully!',
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+                updateUser(result.user, { displayName: name, photoURL: photo })
                     .then(() => {
-                        toast.success('Account created successfully!');
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Profile updated successfully!',
+                            timer: 1200,
+                            showConfirmButton: false
+                        });
                         window.location.href = '/';
                     })
                     .catch((error) => {
-                       toast.error(error.code  ? error.code.replace('auth/', '').replaceAll('-', ' ')  : error.message );
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: error.code ? error.code.replace('auth/', '').replaceAll('-', ' ') : error.message,
+                        });
                     });
             })
             .catch(error => {
-                toast.error(error.code  ? error.code.replace('auth/', '').replaceAll('-', ' ')  : error.message );
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: error.code ? error.code.replace('auth/', '').replaceAll('-', ' ') : error.message,
+                });
             });
-    }
+    };
 
     // Google Sign In
     const handleGoogleSignIn = () => {
         signWithGoogle()
             .then(() => {
-                toast.success("Login successful!");
-                navigate(`${location.state ? location.state : '/'}`);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'You have successfully signed in with Google!',
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+                navigate(location.state ? location.state : '/');
             })
             .catch(error => {
-                toast.error(error.code  ? error.code.replace('auth/', '').replaceAll('-', ' ')  : error.message );
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: error.code ? error.code.replace('auth/', '').replaceAll('-', ' ') : error.message,
+                });
             });
     }
-    
 
     return (
         <div>
@@ -65,7 +125,7 @@ const Register = () => {
                                 <input name='photo' className='form-input' type="text" placeholder="Photo URL"/>
                                 {/* Email Field */}
                                 <label className="form-label">Email address</label>
-                                <input name='email' className='form-input' type="email" placeholder="Enter your email address" required/>
+                                <input name='email' className='form-input' type="email" placeholder="Enter your email address" />
                                 {/* Password Field */}
                                 <label className="form-label">Password</label>
                                 <div className='relative'>

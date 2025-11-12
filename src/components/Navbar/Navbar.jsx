@@ -1,8 +1,8 @@
 import React, { use, useEffect, useState } from 'react';
 import { NavLink } from 'react-router';
 import { AuthContext } from '../../context/AuthContext';
-import { toast } from 'react-toastify';
 import { FaRegCalendar } from 'react-icons/fa';
+import Swal from 'sweetalert2';
 
 const Navbar = () => {
 
@@ -14,11 +14,20 @@ const Navbar = () => {
     const handleLogOut = () => {
         logOut()
             .then(() => {
-                toast.success('You logged out successfully!');
+                Swal.fire({
+                    icon: 'success',
+                    title: 'You logged out successfully!',
+                    timer: 1500,
+                    showConfirmButton: false
+                });
             })
             .catch(error => {
-                toast.error(error.message);
-            })
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: error.message,
+                });
+            });
     };
 
     // Dark mood
