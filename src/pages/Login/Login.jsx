@@ -2,69 +2,52 @@ import React, { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { Link, useLocation, useNavigate } from 'react-router';
 import useAuth from '../../context/useAuth';
-import Swal from 'sweetalert2';
+import { toast } from 'react-toastify';
 
 const Login = () => {
 
     const [showPass, setShowPass] = useState(false);
-    const {signWithGoogle, signInUser} = useAuth();
+    const { signInUser, signWithGoogle } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
-    const from = location.state?.from || '/';
 
     // Form Login
     const handleLogin = (e) => {
         e.preventDefault();
-        const email = e.target.email.value;
-        const password = e.target.password.value;
+        const email = e.target.email.value.trim();
+        const password = e.target.password.value.trim();
 
         if (!email || !password) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Please fill in all fields!',
-            });
+            toast.error('Please fill in all fields!', { autoClose: 1500 });
             return;
         }
+
         signInUser(email, password)
             .then(() => {
                 e.target.reset();
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Login successful!',
-                    timer: 1500,
-                    showConfirmButton: false
-                });
-                navigate(from, { replace: true });
+                toast.success('Login successful!', { autoClose: 1500 });
+                navigate(location.state?.from || '/');
             })
             .catch(error => {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: error.code ? error.code.replace('auth/', '').replaceAll('-', ' ') : error.message,
-                });
+                const message = error.code
+                    ? error.code.replace('auth/', '').replaceAll('-', ' ')
+                    : error.message;
+                toast.error(message, { autoClose: 2000 });
             });
     };
-
 
     // Google SignIn
     const handleGoogleSignIn = () => {
         signWithGoogle()
             .then(() => {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Google SignIn Successful!',
-                    timer: 1500,
-                    showConfirmButton: false
-                });
-                navigate(from, { replace: true });
+                toast.success('Google SignIn Successful!', { autoClose: 1500 });
+                navigate(location.state?.from || '/');
             })
             .catch(error => {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: error.code ? error.code.replace('auth/', '').replaceAll('-', ' ') : error.message,
-                });
+                const message = error.code
+                    ? error.code.replace('auth/', '').replaceAll('-', ' ')
+                    : error.message;
+                toast.error(message, { autoClose: 2000 });
             });
     };
 

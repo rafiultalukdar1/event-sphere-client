@@ -17,7 +17,7 @@ const ManageEventsUpdate = () => {
 
     useEffect(() => {
         if (!user) return;
-        fetch(`http://localhost:3000/events/${id}`)
+        fetch(`https://tenth-assignment-server-tan.vercel.app/events/${id}`)
             .then(res => {
                 if (!res.ok) throw new Error('Event not found');
                 return res.json();
@@ -61,7 +61,7 @@ const ManageEventsUpdate = () => {
             organizer_email: user?.email,
             organizer_photo: user?.photoURL
         };
-        fetch(`http://localhost:3000/events/${id}`, {
+        fetch(`https://tenth-assignment-server-tan.vercel.app/events/${id}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(updatedEvent)

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { Link, useNavigate } from 'react-router';
+import { Link } from 'react-router';
 import useAuth from '../../context/useAuth';
 import Swal from 'sweetalert2';
 
@@ -8,7 +8,6 @@ const Register = () => {
 
     const [showPass, setShowPass] = useState(false);
     const {signWithGoogle, createUser, updateUser} = useAuth();
-    const navigate = useNavigate();
 
     // Register Handle
     const handleRegister = (e) => {
@@ -62,20 +61,10 @@ const Register = () => {
                 });
                 updateUser(result.user, { displayName: name, photoURL: photo })
                     .then(() => {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Profile updated successfully!',
-                            timer: 1200,
-                            showConfirmButton: false
-                        });
                         window.location.href = '/';
                     })
-                    .catch((error) => {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: error.code ? error.code.replace('auth/', '').replaceAll('-', ' ') : error.message,
-                        });
+                    .catch(() => {
+
                     });
             })
             .catch(error => {
@@ -97,7 +86,7 @@ const Register = () => {
                     timer: 1500,
                     showConfirmButton: false
                 });
-                navigate(location.state ? location.state : '/');
+                window.location.href = '/';
             })
             .catch(error => {
                 Swal.fire({

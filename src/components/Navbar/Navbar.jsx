@@ -68,7 +68,7 @@ const Navbar = () => {
                         </div>
                         <NavLink to='/' className='flex items-center gap-1.5 text-[20px] sm:text-[22px] font-bold text-[#219E64]'><FaRegCalendar /><span>EventSphere</span></NavLink>
                     </div>
-                    <div className='navbar-end gap-6'>
+                    <div className='navbar-end gap-3 sm:gap-6'>
                         <div className='navbar-center hidden lg:flex'>
                             <nav className='flex items-center gap-[22px]'>
                                 <NavLink to='/'>Home</NavLink>

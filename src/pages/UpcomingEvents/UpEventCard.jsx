@@ -17,7 +17,7 @@ const UpEventCard = ({ events }) => {
                         <p className='text-[#6D7873] text-[15px] py-1 overflow-hidden [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2]'>{event.description}</p>
                         <h6 className='mt-2 flex items-center gap-1.5 text-[15px] font-medium'><FaRegCalendar className='text-[16px] text-[#10B77F]'/><span>{new Date(event.event_date).toLocaleDateString('en-CA')}</span></h6>
                         <h6 className='mt-2 flex items-center gap-1.5 text-[15px] font-medium'><FaLocationDot className='text-[16px] text-[#10B77F]'/><span>{event.location}</span></h6>
-                        <Link to={`/event-details/${event._id}`} className='py-1.5 w-full bg-[#219E64] rounded mt-5 text-white text-[17px] font-medium block text-center'>View Event</Link>
+                        <Link to={`/event-details/${event._id}`} className='py-1.5 w-full bg-[#219E64] hover:bg-[#0c7e49] transition rounded mt-5 text-white text-[17px] font-medium block text-center'>View Event</Link>
                     </div>
                 </motion.div>
             ))}

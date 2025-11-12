@@ -12,7 +12,6 @@ import ManageEvents from "../pages/ManageEvents/ManageEvents";
 import ManageEventsUpdate from "../pages/ManageEvents/ManageEventsUpdate";
 import ErrorApps from "../pages/ErrorApps/ErrorApps";
 
-
 export const router = createBrowserRouter([
     {
         path: '/',
@@ -48,12 +47,12 @@ export const router = createBrowserRouter([
             },
             {
                 path: '/event-details/:id',
-                loader: ({params}) => fetch(`http://localhost:3000/events/${params.id}`),
+                loader: ({params}) => fetch(`https://tenth-assignment-server-tan.vercel.app/events/${params.id}`),
                 Component: EventDetails,
             },
             {
                 path: '/manage-events-update/:id',
-                loader: ({ params }) => fetch(`http://localhost:3000/events/${params.id}`),
+                loader: ({ params }) => fetch(`https://tenth-assignment-server-tan.vercel.app/events/${params.id}`),
                 element: <PrivetRoute><ManageEventsUpdate></ManageEventsUpdate></PrivetRoute>
             },
             {

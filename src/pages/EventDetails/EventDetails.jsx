@@ -1,12 +1,12 @@
 import { CiShoppingTag } from 'react-icons/ci';
 import { FaArrowLeft, FaMapMarkerAlt, FaRegCalendar } from 'react-icons/fa';
-import { Link, useNavigate, useParams } from 'react-router';
+import { Link, useLocation, useNavigate, useParams } from 'react-router';
 import useAuth from '../../context/useAuth';
 import useAxiosSecure from '../../context/useAxiosSecure';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import Swal from 'sweetalert2';
 import { motion } from "framer-motion";
+import { toast } from 'react-toastify';
 
 const EventDetails = () => {
     const { id } = useParams();
@@ -15,11 +15,11 @@ const EventDetails = () => {
     const [event, setEvent] = useState({});
     const [joinedEvents, setJoinedEvents] = useState([]);
     const navigate = useNavigate();
-
+    const location = useLocation();
 
     useEffect(() => {
         const fetchEvent = async () => {
-            const res = await axios.get(`http://localhost:3000/events/${id}`);
+            const res = await axios.get(`https://tenth-assignment-server-tan.vercel.app/events/${id}`);
             setEvent(res.data);
         };
         fetchEvent();
@@ -28,25 +28,15 @@ const EventDetails = () => {
     // Join event
     const handleJoinEvent = () => {
         if (!user) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Login Required',
-                text: 'Please login to join this event',
-            });
-            return navigate('/login', { state: { from: `/event-details/${id}` } });
+            toast.error('Login required! Please login to join this event.');
+            return navigate('/login', { state: { from: location.pathname } });
         }
 
         axiosSecure.post('/join-event', { eventId: id, userEmail: user.email })
             .then(res => {
                 console.log('Join Event Response:', res.data);
                 if (res.data?.message) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Joined Successfully',
-                        text: res.data.message,
-                        timer: 1500,
-                        showConfirmButton: false
-                    });
+                    toast.success(res.data.message);
                 }
                 return axiosSecure.get(`/joined-events?email=${user.email}`);
             })
@@ -59,30 +49,18 @@ const EventDetails = () => {
                 const status = err.response?.status;
                 switch (status) {
                     case 400:
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'Already Joined',
-                            text: err.response.data?.message || 'You have already joined this event',
-                        });
+                        toast.warning(
+                            err.response.data?.message || 'You have already joined this event');
                         break;
                     case 401:
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Unauthorized',
-                            text: 'Please login again',
-                        });
+                        toast.error('Unauthorized! Please login again.');
                         break;
                     default:
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: 'Something went wrong. Please try again later',
-                        });
+                        toast.error('Something went wrong. Please try again later.');
                         break;
                 }
             });
     };
-
 
     useEffect(() => {
         if (!user) return;
@@ -92,9 +70,8 @@ const EventDetails = () => {
         };
         fetchJoinedEvents();
     }, [user, axiosSecure]);
-    
 
-    const { thumbnail, event_type, title, description, event_details, event_date, location, organizer_photo, organizer_name, organizer_email } = event;
+    const { thumbnail, event_type, title, description, event_details, event_date, organizer_photo, organizer_name, organizer_email } = event;
 
     return (
         <>
@@ -123,7 +100,7 @@ const EventDetails = () => {
                                     </div>
                                     <div className='flex items-center gap-2.5'>
                                         <div className='bg-[#E9F7EF] w-10 h-10 rounded-full flex items-center justify-center'><FaMapMarkerAlt className='text-[#219E64] text-[18px]'/></div>
-                                        <h4 className='text-[18px] text-[#141414] dark:text-white font-semibold'>{location}</h4>
+                                        <h4 className='text-[18px] text-[#141414] dark:text-white font-semibold'>{event.location}</h4>
                                     </div>
                                 </div>
                             </motion.div>

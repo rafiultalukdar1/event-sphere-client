@@ -14,7 +14,7 @@ const CreateEvent = () => {
     const [eventTypes, setEventTypes] = useState(predefinedTypes);
 
     useEffect(() => {
-        axios.get('http://localhost:3000/events')
+        axios.get('https://tenth-assignment-server-tan.vercel.app/events')
         .then(res => {
             const uniqueTypes = [...new Set(res.data.map(event => event.event_type))];
             const combined = Array.from(new Set([...predefinedTypes, ...uniqueTypes]));
@@ -56,7 +56,7 @@ const CreateEvent = () => {
 
         const newEvent = { thumbnail, event_type, title, description, event_details, event_date, location, organizer_photo, organizer_name, organizer_email, status, created_at };
 
-        axios.post('http://localhost:3000/events', newEvent)
+        axios.post('https://tenth-assignment-server-tan.vercel.app/events', newEvent)
         .then(res => {
             if (res.data.acknowledged) {
             Swal.fire({

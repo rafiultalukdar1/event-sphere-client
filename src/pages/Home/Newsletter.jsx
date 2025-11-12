@@ -11,7 +11,7 @@ const Newsletter = () => {
                     <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.6 }} className='max-w-[730px] mx-auto px-5 md:px-8 pb-8 pt-10 shadow-sm dark:shadow-white rounded-lg mt-5 lg:mt-[30px]'>
                         <form className="flex flex-col sm:flex-row items-center gap-4 justify-center">
                             <input type="email" placeholder="Enter your email address" className="w-full sm:w-[350px] px-5 py-3 rounded-full  text-[#141414] dark:text-white text-[16px] border border-[#219e648f] focus:border-[#219E64] outline-0" required/>
-                            <button type="submit" className="bg-[#219E64] text-white font-semibold px-8 py-3 rounded-full transition duration-300">Subscribe</button>
+                            <button type="submit" className="bg-[#219E64] hover:bg-[#11804c] text-white font-semibold px-8 py-3 rounded-full transition duration-300">Subscribe</button>
                         </form>
                             <p className='text-center text-[14px] text-[#71717A] mt-3'>We respect your privacy. Unsubscribe at any time.</p>
                     </motion.div>
