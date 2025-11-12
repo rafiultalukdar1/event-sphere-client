@@ -4,6 +4,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import useAuth from '../../context/useAuth';
+import { motion } from "framer-motion";
 
 const CreateEvent = () => {
 
@@ -81,9 +82,9 @@ const CreateEvent = () => {
         <>
             <div className='py-[50px] md:py-[70px]'>
                 <div className='container'>
-                    <h2 className='text-center text-[32px] sm:text-[40px] lg:text-[50px] font-bold'>Create New <span className='bg-linear-to-b from-[#219E64] to-[#5FD68E] bg-clip-text text-transparent'>Event</span></h2>
-                    <p className='text-center text-[16px] md:text-[18px] font-medium text-[#6D7873]'>Organize a social development event and bring your community together</p>
-                    <div className='max-w-[750px] mx-auto py-7 px-5 border border-[#CCCCCC] dark:bg-gray-900 rounded-2xl mt-5 lg:mt-8'>
+                    <motion.h2 initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.6 }} className='text-center text-[32px] sm:text-[40px] lg:text-[50px] font-bold'>Create New <span className='bg-linear-to-b from-[#219E64] to-[#5FD68E] bg-clip-text text-transparent'>Event</span></motion.h2>
+                    <motion.p initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.6 }} className='text-center text-[16px] md:text-[18px] font-medium text-[#6D7873]'>Organize a social development event and bring your community together</motion.p>
+                    <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.6 }} className='max-w-[750px] mx-auto py-7 px-5 border border-[#CCCCCC] dark:bg-gray-900 rounded-2xl mt-5 lg:mt-8'>
                         <form onSubmit={handleCreateEvent} className='space-y-3'>
                             <input type='text' name='title' placeholder='Event Title'  className='form-input' />
                             <textarea name='description' placeholder='Short Description'  className='form-input h-24'></textarea>
@@ -110,7 +111,7 @@ const CreateEvent = () => {
                             <input type='text' name='organizer_photo' value={user?.photoURL || ''} readOnly hidden />
                             <button type='submit' className='w-full bg-[#219E64] hover:bg-[#1b7f52] text-white font-semibold py-2.5 rounded-lg transition'>Create Event</button>
                         </form>
-                    </div>
+                    </motion.div>
                 </div>
             </div>
         </>

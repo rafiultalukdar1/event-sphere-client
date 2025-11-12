@@ -7,6 +7,7 @@ import { RiDeleteBinLine } from 'react-icons/ri';
 import { FaRegEdit } from 'react-icons/fa';
 import { Link } from 'react-router';
 import Swal from 'sweetalert2';
+import { motion } from "framer-motion";
 
 const ManageEvents = () => {
 
@@ -81,12 +82,12 @@ const ManageEvents = () => {
         <>
             <div className='py-[50px] md:py-[70px]'>
                 <div className='container'>
-                    <h2 className='text-center text-[32px] sm:text-[40px] lg:text-[50px] font-bold'>Manage <span className='bg-linear-to-b from-[#219E64] to-[#5FD68E] bg-clip-text text-transparent'>Events</span></h2>
-                    <p className='text-center text-[16px] md:text-[18px] font-medium text-[#6D7873]'>Update or delete the events you've organized</p>
+                    <motion.h2 initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.6 }} className='text-center text-[32px] sm:text-[40px] lg:text-[50px] font-bold'>Manage <span className='bg-linear-to-b from-[#219E64] to-[#5FD68E] bg-clip-text text-transparent'>Events</span></motion.h2>
+                    <motion.p initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.6 }} className='text-center text-[16px] md:text-[18px] font-medium text-[#6D7873]'>Update or delete the events you've organized</motion.p>
                     <div className='max-w-[890px] mx-auto mt-[30px] md:mt-[45px] space-y-7'>
                         {
                             events.map(event => (
-                                <div key={event._id} className='flex flex-col md:flex-row border border-[#E1E7EF] dark:border-white rounded-lg lg:rounded-2xl p-4 md:pr-7 lg:items-center gap-5'>
+                                <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.6 }} key={event._id} className='flex flex-col md:flex-row border border-[#E1E7EF] dark:border-white rounded-lg lg:rounded-2xl p-4 md:pr-7 lg:items-center gap-5'>
                                     <div className='lg:w-[38%]'>
                                         <img className='rounded-lg lg:rounded-2xl h-[280px] w-full md:w-[300px] object-cover' src={event.thumbnail} alt="" />
                                     </div>
@@ -115,7 +116,7 @@ const ManageEvents = () => {
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </motion.div>
                             ))
                         }
                     </div>

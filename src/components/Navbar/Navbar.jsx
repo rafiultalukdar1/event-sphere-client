@@ -9,6 +9,7 @@ const Navbar = () => {
     const {user, logOut} = use(AuthContext);
     const [open, setOpen] = useState(false);
     const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+    const [hover, setHover] = useState(false);
 
     // Log Out
     const handleLogOut = () => {
@@ -77,30 +78,32 @@ const Navbar = () => {
                         <div>
                             <input onChange={(e) => handleTheme(e.target.checked)} type="checkbox" defaultChecked={localStorage.getItem('theme') === "dark"} className="toggle"/>
                         </div>
-                        {
-                            user ? (
-                                <>
+                            {
+                                user ? (
                                     <div className='relative'>
-                                        <div>
-                                            <img onClick={() => setOpen(!open)} src={user.photoURL}  className='w-11 h-11 object-cover rounded-full cursor-pointer'/>
+                                        <div className='relative'>
+                                            <img onClick={() => setOpen(!open)} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}src={user.photoURL} className='w-11 h-11 object-cover rounded-full cursor-pointer' />
+                                            {hover && (
+                                                <div className='absolute top-11 right-0 bg-gray-800 text-white text-sm px-3 py-1 rounded-md shadow-lg whitespace-nowrap'>
+                                                    {user.displayName}
+                                                </div>
+                                            )}
                                         </div>
-                                        {
-                                            open ? (
+                                        {open && (
                                             <div className='absolute menu bg-base-100 right-0 w-[235px] px-[15px] py-[22px] rounded-lg shadow-xl space-y-5'>
-                                                <div onClick={() => setOpen(false)} className='dropdown-link flex flex-col gap-3 text-[18px] font-semibold'>{links}</div>
+                                                <div onClick={() => setOpen(false)} className='dropdown-link flex flex-col gap-3 text-[18px] font-semibold'>
+                                                    {links}
+                                                </div>
                                                 <button onClick={() => { handleLogOut(); setOpen(false); }} className='py-1.5 bg-[#219E64] text-white text-[16px] font-medium rounded-lg w-full'>LogOut</button>
                                             </div>
-                                            ) : ('')
-                                        }
+                                        )}
                                     </div>
-                                </>
-                            ) : (
-                                <>
+                                ) : (
                                     <div className='login-nav flex items-center gap-2'>
                                         <NavLink to='/login' className='py-1.5 px-5 bg-white rounded-lg text-[#219E64] border border-[#219E64] text-[18px] font-semibold'>Login</NavLink>
                                         <NavLink to='/register' className='py-1.5 px-5 bg-white rounded-lg text-[#219E64] border border-[#219E64] text-[18px] font-semibold hidden sm:block'>Register</NavLink>
                                     </div>
-                                </>)
+                                )
                             }
                     </div>
                 </div>

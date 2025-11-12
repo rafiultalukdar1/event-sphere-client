@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaCheckCircle, FaMapMarkerAlt, FaRegCalendar, FaUsers } from 'react-icons/fa';
+import { motion } from "framer-motion";
 
 const Impact = () => {
 
@@ -30,17 +31,18 @@ const Impact = () => {
         <>
             <div className='py-[60px] lg:py-[90px] bg-[#FDFDFD] dark:bg-[#1D232A]'>
                 <div className='container'>
-                    <h2 className='text-center text-[30px] sm:text-[38px] md:text-[45px] lg:text-[52px] font-bold text-[#141414] dark:text-white'>Why Choose Social Impact?</h2>
-                    <p className='text-center text-[16px] md:text-[18px] font-medium text-[#6D7873]'>Our platform makes it easy to organize and participate in meaningful community events</p>
+                    <motion.h2 initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.6 }} className='text-center text-[30px] sm:text-[38px] md:text-[45px] lg:text-[52px] font-bold text-[#141414] dark:text-white'
+                    > Why Choose Social Impact? </motion.h2>
+                    <motion.p initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.6 }} className='text-center text-[16px] md:text-[18px] font-medium text-[#6D7873]'>Our platform makes it easy to organize and participate in meaningful community events</motion.p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 mt-[30px] md:mt-[50px]">
                         {
-                            features.map((feature, index) => ( <div key={index} className="bg-white dark:bg-[#1D232A] shadow-sm border border-gray-200 rounded-2xl p-8 text-center hover:shadow-lg transition">
+                            features.map((feature, index) => ( <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.6, delay: index * 0.1 }} key={index} className="bg-white dark:bg-[#1D232A] shadow-sm border border-gray-200 rounded-2xl p-8 text-center hover:shadow-lg transition">
                                 <div className="flex justify-center items-center mb-4">
                                     <div className="bg-[#E9F7EF] w-14 h-14 rounded-full flex items-center justify-center"> {feature.icon} </div>
                                 </div>
                                 <h3 className="text-[18px] font-semibold text-[#141414] dark:text-white mb-1.5">{feature.title}</h3>
                                 <p className="text-[16px] text-[#6D7873]">{feature.description}</p>
-                            </div> ))
+                            </motion.div> ))
                         }
                     </div>
                 </div>

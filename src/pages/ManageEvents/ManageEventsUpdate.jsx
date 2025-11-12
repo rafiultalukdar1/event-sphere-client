@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router';
 import useAuth from '../../context/useAuth';
 import Loading from '../Loading/Loading';
 import Swal from 'sweetalert2';
+import { motion } from "framer-motion";
 
 const ManageEventsUpdate = () => {
     const { user } = useAuth();
@@ -12,7 +13,7 @@ const ManageEventsUpdate = () => {
     const [event, setEvent] = useState(null);
     const [eventDate, setEventDate] = useState(null);
 
-    const eventTypes = ['Cleanup', 'Plantation', 'Donation'];
+    const eventTypes = ['Cleanup', 'Plantation', 'Donation', 'Education', 'Healthcare'];
 
     useEffect(() => {
         if (!user) return;
@@ -112,11 +113,11 @@ const ManageEventsUpdate = () => {
     return (
         <div className='py-[50px] md:py-[70px]'>
             <div className='container'>
-                <h2 className='text-center text-[32px] sm:text-[40px] lg:text-[50px] font-bold'>
+                <motion.h2 initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.6 }} className='text-center text-[32px] sm:text-[40px] lg:text-[50px] font-bold'>
                     Update <span className='bg-linear-to-b from-[#219E64] to-[#5FD68E] bg-clip-text text-transparent'>Event</span>
-                </h2>
+                </motion.h2>
 
-                <div className='max-w-[750px] mx-auto py-7 px-5 border border-[#CCCCCC] dark:bg-gray-900 rounded-2xl mt-5 lg:mt-8'>
+                <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.6 }} className='max-w-[750px] mx-auto py-7 px-5 border border-[#CCCCCC] dark:bg-gray-900 rounded-2xl mt-5 lg:mt-8'>
                     <form onSubmit={handleUpdateEvent} className='space-y-3'>
                         <input type='text' name='title' placeholder='Event Title' className='form-input' defaultValue={event?.title} />
                         <textarea name='description' placeholder='Short Description' className='form-input h-24' defaultValue={event?.description}></textarea>
@@ -151,7 +152,7 @@ const ManageEventsUpdate = () => {
                             <button type='button' onClick={handleCancel} className='flex-1 bg-[#F43198] text-white font-semibold py-2.5 rounded-md'>Cancel</button>
                         </div>
                     </form>
-                </div>
+                </motion.div>
             </div>
         </div>
     );
