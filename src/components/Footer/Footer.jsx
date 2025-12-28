@@ -7,7 +7,7 @@ import { IoLocation } from 'react-icons/io5';
 const Footer = () => {
     return (
         <>
-                <div className='bg-[#FBFCFB] dark:bg-gray-900 shadow-[0_-3px_6px_rgba(0,0,0,0.1)]'>
+            <div className='bg-[#FBFCFB] dark:bg-gray-900 shadow-[0_-3px_6px_rgba(0,0,0,0.1)]'>
                 <div className='container'>
                     <div className='py-[35px] grid grid-cols-12 gap-5 gap-y-[30px] border-b border-[#219E64]'>
                         <div className='col-span-12 sm:col-span-6 lg:col-span-4 max-w-[320px]'>

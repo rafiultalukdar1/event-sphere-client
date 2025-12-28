@@ -1,6 +1,6 @@
 # EventSphere
 
-Live Site: https://rafi-tenth-assignment.netlify.app/
+Live Site: https://project-event-sphere.netlify.app/
 
 ## Overview
 EventSphere is a community-driven social development events platform where users can create, join, and track local social service events. The platform aims to bring people together for a common cause and promote community engagement.

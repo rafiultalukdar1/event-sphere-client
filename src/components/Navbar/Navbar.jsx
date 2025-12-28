@@ -38,7 +38,6 @@ const Navbar = () => {
         localStorage.setItem("theme", theme);
     }, [theme]);
 
-
     const handleTheme = (checked) => {
         setTheme(checked ? "dark" : "light");
     };
