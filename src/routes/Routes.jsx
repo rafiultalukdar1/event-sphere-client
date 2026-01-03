@@ -11,6 +11,8 @@ import CreateEvent from "../pages/CreateEvent/CreateEvent";
 import ManageEvents from "../pages/ManageEvents/ManageEvents";
 import ManageEventsUpdate from "../pages/ManageEvents/ManageEventsUpdate";
 import ErrorApps from "../pages/ErrorApps/ErrorApps";
+import AboutUs from "../pages/AboutUs/AboutUs";
+import Contact from "../pages/Contact/Contact";
 
 export const router = createBrowserRouter([
     {
@@ -48,7 +50,7 @@ export const router = createBrowserRouter([
             {
                 path: '/event-details/:id',
                 loader: ({params}) => fetch(`https://tenth-assignment-server-tan.vercel.app/events/${params.id}`),
-                Component: EventDetails,
+                element: <PrivetRoute><EventDetails></EventDetails></PrivetRoute>,
             },
             {
                 path: '/manage-events-update/:id',
@@ -58,7 +60,15 @@ export const router = createBrowserRouter([
             {
                 path: '*',
                 Component: ErrorApps,
-            }
+            },
+            {
+                path: 'about-us',
+                Component: AboutUs,
+            },
+            {
+                path: 'contact',
+                Component: Contact,
+            },
         ]
     }
 ]);

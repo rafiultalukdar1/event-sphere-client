@@ -63,17 +63,24 @@ const Navbar = () => {
                             <nav tabIndex='-1' className='menu menu-sm dropdown-content bg-base-100 rounded-box z-2 mt-3 w-52 p-2 shadow px-5 py-3 space-y-1.5'>
                                 <NavLink to='/'>Home</NavLink>
                                 <NavLink to='/upcoming-events'>Upcoming Events</NavLink>
+                                <NavLink to='/about-us'>About Us</NavLink>
+                                <NavLink to='/contact'>Contact</NavLink>
                             </nav>
                         </div>
-                        <NavLink to='/' className='flex items-center gap-1.5 text-[20px] sm:text-[22px] font-bold text-[#219E64]'><FaRegCalendar /><span>EventSphere</span></NavLink>
+                        <NavLink to='/' className='flex items-center gap-1.5 text-[20px] sm:text-[22px] font-bold text-[#219E64]'><FaRegCalendar /><><span className='sm:hidden'>E-Sphere</span><span className='hidden sm:block'>EventSphere</span></></NavLink>
                     </div>
+
+                    <div className='navbar-center hidden lg:flex'>
+                        <nav className='flex items-center gap-[22px]'>
+                            <NavLink to='/'>Home</NavLink>
+                            <NavLink to='/upcoming-events'>Upcoming Events</NavLink>
+                            <NavLink to='/about-us'>About Us</NavLink>
+                            <NavLink to='/contact'>Contact</NavLink>
+                        </nav>
+                    </div>
+
+
                     <div className='navbar-end gap-3 sm:gap-6'>
-                        <div className='navbar-center hidden lg:flex'>
-                            <nav className='flex items-center gap-[22px]'>
-                                <NavLink to='/'>Home</NavLink>
-                                <NavLink to='/upcoming-events'>Upcoming Events</NavLink>
-                            </nav>
-                        </div>
                         <div>
                             <input onChange={(e) => handleTheme(e.target.checked)} type="checkbox" defaultChecked={localStorage.getItem('theme') === "dark"} className="toggle"/>
                         </div>
