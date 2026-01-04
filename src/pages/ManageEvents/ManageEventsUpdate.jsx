@@ -28,7 +28,7 @@ const ManageEventsUpdate = () => {
             })
             .catch(err => {
                 console.error(err);
-                navigate('/manage-events');
+                navigate('/dashboard/manage-events');
             });
     }, [user, id, navigate]);
 
@@ -79,7 +79,7 @@ const ManageEventsUpdate = () => {
                 timer: 2000,
                 showConfirmButton: false
             });
-            navigate(`/manage-events`);
+            navigate(`/dashboard/manage-events`);
         })
         .catch(err => {
             console.error(err);
@@ -105,7 +105,7 @@ const ManageEventsUpdate = () => {
             cancelButtonText: 'No, stay'
         }).then((result) => {
             if (result.isConfirmed) {
-                navigate('/manage-events');
+                navigate('/dashboard/manage-events');
             }
         });
     };

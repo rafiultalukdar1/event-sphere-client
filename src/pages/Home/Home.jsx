@@ -3,6 +3,7 @@ import Banner from './Banner';
 import Impact from './Impact';
 import Gallery from './Gallery';
 import Newsletter from './Newsletter';
+import EventsHosted from './EventsHosted';
 
 const Home = () => {
     return (
@@ -10,6 +11,7 @@ const Home = () => {
             <Banner></Banner>
             <Impact></Impact>
             <Gallery></Gallery>
+            <EventsHosted></EventsHosted>
             <Newsletter></Newsletter>
         </>
     );

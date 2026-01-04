@@ -105,7 +105,7 @@ const ManageEvents = () => {
                                                     new Date(event.event_date) < new Date() ? (
                                                         <button className='px-4 py-2 rounded-lg bg-[#F43198] text-white font-medium cursor-not-allowed w-full'>Expired</button>
                                                     ) : (
-                                                        <Link to={`/manage-events-update/${event._id}`} className='flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-300 text-[#141414] font-medium bg-gray-100 transition'>
+                                                        <Link to={`/dashboard/manage-events-update/${event._id}`} className='flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-300 text-[#141414] font-medium bg-gray-100 transition'>
                                                             <FaRegEdit size={16} /><span>Update</span>
                                                         </Link>
                                                     )

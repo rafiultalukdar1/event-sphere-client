@@ -1,15 +1,17 @@
 import React, { use, useEffect, useState } from 'react';
-import { NavLink } from 'react-router';
+import { Link, NavLink } from 'react-router';
 import { AuthContext } from '../../context/AuthContext';
 import { FaRegCalendar } from 'react-icons/fa';
 import Swal from 'sweetalert2';
+import { LuLayoutDashboard } from 'react-icons/lu';
+import { CgProfile } from 'react-icons/cg';
+import { AiOutlineLogout } from 'react-icons/ai';
 
 const Navbar = () => {
 
     const {user, logOut} = use(AuthContext);
     const [open, setOpen] = useState(false);
     const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
-    const [hover, setHover] = useState(false);
 
     // Log Out
     const handleLogOut = () => {
@@ -42,11 +44,12 @@ const Navbar = () => {
         setTheme(checked ? "dark" : "light");
     };
 
-
     const links = <>
-        <NavLink to='/create-event'>Create Event</NavLink>
+        {/* <NavLink to='/create-event'>Create Event</NavLink>
         <NavLink to='/manage-events'>Manage Events</NavLink>
-        <NavLink to='/joined-events'>Joined Events</NavLink>
+        <NavLink to='/joined-events'>Joined Events</NavLink> */}
+        <Link to='dashboard/create-event' className='flex items-center gap-2 px-[15px] py-2 text-[15px] font-medium text-[#141414] dark:text-white hover:bg-[#219E64] hover:text-white transition rounded w-full'><LuLayoutDashboard /><span>Dashboard</span></Link>
+        <Link to='dashboard/profile' className='flex items-center gap-2 px-[15px] py-2 text-[15px] font-medium text-[#141414] dark:text-white hover:bg-[#219E64] hover:text-white transition rounded w-full'><CgProfile /><span>Profile</span></Link>
     </>
 
     return (
@@ -88,19 +91,22 @@ const Navbar = () => {
                                 user ? (
                                     <div className='relative'>
                                         <div className='relative'>
-                                            <img onClick={() => setOpen(!open)} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}src={user.photoURL} className='w-11 h-11 object-cover rounded-full cursor-pointer' />
-                                            {hover && (
-                                                <div className='absolute top-11 right-0 bg-gray-800 text-white text-sm px-3 py-1 rounded-md shadow-lg whitespace-nowrap'>
-                                                    {user.displayName}
-                                                </div>
-                                            )}
+                                            <img 
+                                                onClick={() => setOpen(!open)}  
+                                                src={user.photoURL} 
+                                                className='w-11 h-11 object-cover rounded-full cursor-pointer p-0.5 border border-[#219e64a8]' 
+                                            />
                                         </div>
                                         {open && (
-                                            <div className='absolute menu bg-base-100 right-0 w-[235px] px-[15px] py-[22px] rounded-lg shadow-xl space-y-5'>
-                                                <div onClick={() => setOpen(false)} className='dropdown-link flex flex-col gap-3 text-[18px] font-semibold'>
+                                            <div className='absolute menu bg-base-100 right-0 w-[235px] px-[15px] py-[22px] rounded-lg shadow-xl space-y-4'>
+                                                <div>
+                                                    <h4 className='text-[#141414] dark:text-white text-[20px] font-semibold'>{user.displayName}</h4>
+                                                    <p className='text-sm'>{user.email}</p>
+                                                </div>
+                                                <div onClick={() => setOpen(false)} className='dropdown-link flex flex-col text-[18px] font-semibold border-y border-[#DADADA] dark:border-[#464646] py-2.5'>
                                                     {links}
                                                 </div>
-                                                <button onClick={() => { handleLogOut(); setOpen(false); }} className='py-1.5 bg-[#219E64] text-white text-[16px] font-medium rounded-lg w-full'>LogOut</button>
+                                                <button onClick={() => { handleLogOut(); setOpen(false); }} className='flex items-center gap-2 px-[15px] py-1.5 text-[16px] font-medium text-red-500 hover:bg-[#219E64] hover:text-white transition rounded w-full'><AiOutlineLogout />LogOut</button>
                                             </div>
                                         )}
                                     </div>

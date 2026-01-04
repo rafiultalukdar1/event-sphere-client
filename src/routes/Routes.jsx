@@ -13,6 +13,8 @@ import ManageEventsUpdate from "../pages/ManageEvents/ManageEventsUpdate";
 import ErrorApps from "../pages/ErrorApps/ErrorApps";
 import AboutUs from "../pages/AboutUs/AboutUs";
 import Contact from "../pages/Contact/Contact";
+import DashboardLayouts from "../components/layouts/DashboardLayouts";
+import Profile from "../pages/Profile/Profile";
 
 export const router = createBrowserRouter([
     {
@@ -28,18 +30,6 @@ export const router = createBrowserRouter([
                 Component: UpcomingEvents,
             },
             {
-                path: '/create-event',
-                element: <PrivetRoute><CreateEvent></CreateEvent></PrivetRoute>
-            },
-            {
-                path: '/manage-events',
-                element: <PrivetRoute><ManageEvents></ManageEvents></PrivetRoute>
-            },
-            {
-                path: '/joined-events',
-                element: <PrivetRoute><JoinedEvents></JoinedEvents></PrivetRoute>
-            },
-            {
                 path: 'login',
                 Component: Login,
             },
@@ -53,11 +43,6 @@ export const router = createBrowserRouter([
                 element: <PrivetRoute><EventDetails></EventDetails></PrivetRoute>,
             },
             {
-                path: '/manage-events-update/:id',
-                loader: ({ params }) => fetch(`https://tenth-assignment-server-tan.vercel.app/events/${params.id}`),
-                element: <PrivetRoute><ManageEventsUpdate></ManageEventsUpdate></PrivetRoute>
-            },
-            {
                 path: '*',
                 Component: ErrorApps,
             },
@@ -69,6 +54,33 @@ export const router = createBrowserRouter([
                 path: 'contact',
                 Component: Contact,
             },
+        ]
+    },
+    {
+        path: '/dashboard',
+        element: <PrivetRoute><DashboardLayouts></DashboardLayouts></PrivetRoute>,
+        children: [
+            {
+                path: 'create-event',
+                element: <CreateEvent></CreateEvent>,
+            },
+            {
+                path: 'manage-events',
+                element: <ManageEvents></ManageEvents>,
+            },
+            {
+                path: 'manage-events-update/:id',
+                loader: ({ params }) => fetch(`https://tenth-assignment-server-tan.vercel.app/events/${params.id}`),
+                element: <PrivetRoute><ManageEventsUpdate></ManageEventsUpdate></PrivetRoute>
+            },
+            {
+                path: 'joined-events',
+                element: <JoinedEvents></JoinedEvents>,
+            },
+            {
+                path: 'profile',
+                element: <Profile></Profile>
+            }
         ]
     }
 ]);
